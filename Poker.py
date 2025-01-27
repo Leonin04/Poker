@@ -1,5 +1,9 @@
 from Baraja import Baraja  
 from Cartas import Carta
+from Mano import Mano
 
-Baraja = Baraja()
+baraja = Baraja()
+miMano = Mano()
+miMano._inicializar_(baraja)
 
+print(miMano)
