@@ -28,3 +28,4 @@ while respuesta.lower() == 's' and len(Mesa.cartas) < 5:
     print("Tu mano es: ", ComprobarMano(Mesa,miMano))
     if len(Mesa.cartas) < 5:
         respuesta = input("¿Quieres otra carta? (s/n): ")
+
