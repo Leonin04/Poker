@@ -11,10 +11,10 @@ class Baraja:
         self.cartas = []
         for palo in self.palos:
             for valor in range(2, 11):
-                self.cartas.append(Carta(valor, palo))
+                self.cartas.append(Carta(valor, palo, valor))
             for figura in ['J', 'Q', 'K']:
-                self.cartas.append(Carta(10, palo, True, figura))
-            self.cartas.append(Carta(11, palo))
+                self.cartas.append(Carta(10, palo, figura))
+            self.cartas.append(Carta(11, palo, "As"))
 
     def barajar(self):
         import random

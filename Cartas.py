@@ -1,10 +1,9 @@
 class Carta:
-    def __init__(self, valor, palo, esfigura=False, figura=None):
+    def __init__(self, valor, palo, figura=None):
         self.valor = valor
         self.palo = palo
         self.figura = figura
-        if esfigura:
-            self.figura = figura
+        
 
     def palotoint(self):
         if self.palo == "Picas":

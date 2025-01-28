@@ -27,6 +27,6 @@ while respuesta == 's' and len(Mesa.cartas) < 5:
 print("\nLas cartas de la CPU son:")
 print(manoCPU)
 manoCPU.comprobarMano(Mesa)
-print("La mano de la CPU es: ", manoCPU.getMano(), "\n")
+print("La mano de la CPU es: ", manoCPU.getMano(),"\tPuntuación: ", manoCPU.getPuntuacion())
 
-print(ComprobarGanador(miMano,manoCPU))
+print("\n",ComprobarGanador(miMano,manoCPU))
