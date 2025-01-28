@@ -1,4 +1,6 @@
-def ComprobarMano(mesa,mano):
+orden = ['Poker','Full','Color','Escalera','Trio','Doble Pareja','Pareja','Carta Alta']
+
+def CheckMano(mesa,mano):
     if Poker(mesa,mano):
         return "Poker"
     elif Full(mesa,mano):
@@ -16,24 +18,30 @@ def ComprobarMano(mesa,mano):
     else:
         return "Carta Alta"
     
-    
-    pass
+def ComprobarGanador(mano1,mano2):
+    if orden.index(mano1.getMano()) < orden.index(mano2.getMano()):
+        return "Gana Jugador 1"
+    elif orden.index(mano1.getMano()) > orden.index(mano2.getMano( )):
+        return "Gana CPU"
 
-def ContarPareja(mesa,mano):
-    parejas=0
+def ContarPareja(mesa, mano):
+    manita = (0,0,0)
     contar = mesa.cartas + mano.cartas
-    for carta in contar:
-        conteo=0
-        for carta2 in contar:
-            if carta.valor == carta2.valor and carta.figura == carta2.figura:
-                conteo+=1
-        if conteo == 2:
-            parejas+=1
-            contar.remove(carta)
-    return parejas
+
+    for i in range(len(contar)):
+        repeticiones = 1
+        for j in range(i+1, len(contar)):
+            if contar[i].valor == contar[j].valor and contar[i].figura == contar[j].figura:
+                repeticiones += 1
+        if repeticiones >= manita[0]:
+            manita = (repeticiones, contar[i].valor, manita[2]+1)
+    
+    print(manita)
+    return manita
 
 def Pareja(mesa,mano):
-    if ContarPareja(mesa,mano) == 1:
+    if ContarPareja(mesa,mano)[0] == 2:
+        mano.setPuntuacion(ContarPareja(mesa,mano)[1]*2)
         return True
     else:
         return False
@@ -45,13 +53,9 @@ def DoblePareja(mesa,mano):
         return False
     
 def Trio(mesa,mano):
-    for carta in mano.cartas:
-        conteo=0
-        for carta2 in mesa.cartas:
-            if carta.valor == carta2.valor and carta.figura == carta2.figura:
-                conteo+=1
-        if conteo == 3:
-            return True
+    if ContarPareja(mesa,mano)[0] == 3:
+        mano.setPuntuacion(ContarPareja(mesa,mano)[1]*3)
+        return True
     else:
         return False
     
@@ -90,13 +94,9 @@ def Full(mesa,mano):
         return False
     
 def Poker(mesa,mano):
-    for carta in mano.cartas:
-        conteo=0
-        for carta2 in mesa.cartas:
-            if carta.valor == carta2.valor and carta.figura == carta2.figura:
-                conteo+=1
-        if conteo == 4:
-            return True
+    if ContarPareja(mesa,mano)[0] == 4:
+        mano.setPuntuacion(ContarPareja(mesa,mano)[1]*4)
+        return True
     else:
         return False
 
