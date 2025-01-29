@@ -1,6 +1,8 @@
 import os
 
 orden = ['Poker','Full','Color','Escalera','Trio','Doble Pareja','Pareja','Carta Alta']
+ciega =250,500
+
 
 def CheckMano(mesa,mano):
     if Poker(mesa,mano):
@@ -21,8 +23,9 @@ def CheckMano(mesa,mano):
         mano.setPuntuacion(max([carta.valor for carta in mano.cartas]))
         return "Carta Alta"
 
-def SeguirJugando(mesa,mano,baraja): 
+def SeguirJugando(mesa,mano,baraja,ronda): 
         os.system('cls' if os.name == 'nt' else 'clear')
+        print("La ciega será de",ciega)
         mesa.pedirCarta(baraja)
         print("Tus cartas son:")
         print(mano)
@@ -30,20 +33,29 @@ def SeguirJugando(mesa,mano,baraja):
         print(mesa)
         mano.comprobarMano(mesa)
         print("Tu mano es: ", mano.getMano(), "\tPuntuación: ", mano.getPuntuacion())
+        print("Tu apuesta es de: ", mano.apuesta , "\tFichas restantes: ", mano.fichas)
         respuesta = input("¿Que quieres hacer? \t Seguir (s) \t Aumentar Apuesta (a) \t Retirarse (r): ")
 
         return respuesta
     
 def ComprobarGanador(mano1,mano2):
     if orden.index(mano1.getMano()) < orden.index(mano2.getMano()):
-        return "Gana Jugador 1"
+        mano1.ganaMano()
+        mano2.pierdeMano()
+        return "Gana esta mano Jugador 1"
     elif orden.index(mano1.getMano()) > orden.index(mano2.getMano( )):
-        return "Gana CPU"
+        mano2.ganaMano()
+        mano1.pierdeMano()
+        return "Gana esta mano CPU"
     else:
         if mano1.getPuntuacion() > mano2.getPuntuacion():
-            return "Gana Jugador 1"
+            mano1.ganaMano()
+            mano2.pierdeMano()
+            return "Gana esta mano Jugador 1"
         elif mano1.getPuntuacion() < mano2.getPuntuacion():
-            return "Gana CPU"
+            mano2.ganaMano()
+            mano1.pierdeMano()
+            return "Gana esta mano CPU"
 
 def ContarPareja(mesa, mano):
     figura = []

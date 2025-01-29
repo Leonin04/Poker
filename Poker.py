@@ -1,11 +1,14 @@
 from Baraja import Baraja  
 from Cartas import Carta
 from Mano import Mano
-from Funciones import ComprobarGanador, SeguirJugando, SetFichas
+from Funciones import ComprobarGanador, SeguirJugando
+
+FICHAS = input("Introduce el número de fichas con las que quieres comenzar: ")
+ronda=0
 
 baraja = Baraja()
-miMano = Mano()
-manoCPU = Mano()
+miMano = Mano(FICHAS)
+manoCPU = Mano(FICHAS)
 Mesa = Mano()
 respuesta = ""
 
@@ -14,9 +17,12 @@ manoCPU.inicializar(baraja)
 Mesa.inicializar(baraja,1)
 
 while respuesta != "r":
-    respuesta = SeguirJugando(Mesa,miMano, baraja)
+    respuesta = SeguirJugando(Mesa,miMano, baraja,ronda)
     if respuesta == "a":
         miMano.aumentarApuesta()
+
+ronda += 1
+
 print("\nLas cartas de la CPU son:")
 print(manoCPU)
 manoCPU.comprobarMano(Mesa)
