@@ -1,3 +1,5 @@
+import os
+
 orden = ['Poker','Full','Color','Escalera','Trio','Doble Pareja','Pareja','Carta Alta']
 
 def CheckMano(mesa,mano):
@@ -18,6 +20,19 @@ def CheckMano(mesa,mano):
     else:
         mano.setPuntuacion(max([carta.valor for carta in mano.cartas]))
         return "Carta Alta"
+
+def SeguirJugando(mesa,mano,baraja): 
+        os.system('cls' if os.name == 'nt' else 'clear')
+        mesa.pedirCarta(baraja)
+        print("Tus cartas son:")
+        print(mano)
+        print("Las cartas de la mesa son:")
+        print(mesa)
+        mano.comprobarMano(mesa)
+        print("Tu mano es: ", mano.getMano(), "\tPuntuación: ", mano.getPuntuacion())
+        respuesta = input("¿Que quieres hacer? \t Seguir (s) \t Aumentar Apuesta (a) \t Retirarse (r): ")
+
+        return respuesta
     
 def ComprobarGanador(mano1,mano2):
     if orden.index(mano1.getMano()) < orden.index(mano2.getMano()):

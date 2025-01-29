@@ -8,6 +8,7 @@ class Mano:
         self.cartas = []
         self.puntuación = 0
         self.mano = []
+        self.fichas = FICHAS
 
     def setPuntuacion(self, puntuacion):
         self.puntuación = puntuacion
