@@ -14,12 +14,16 @@ class Mano:
     def setPuntuacion(self, puntuacion):
         self.puntuación = puntuacion
 
-    def aumentarApuesta(self):
-        self.fichas -= 100
-        self.apuesta += 100
+    def aumentarApuesta(self,ciega):
+        cantidad = input("¿Cuanto quieres aumentar la apuesta? ")
+        while not cantidad.isdigit() or int(cantidad) > self.fichas:
+            cantidad = input("Introduce una cantidad válida: ")
+
+        self.apuesta += int(cantidad)
+        self.fichas -= int(cantidad)
 
     def ganaMano(self):
-        self.fichas += self.apuesta
+        self.fichas = self.apuesta + self.fichas
         self.apuesta = 0
 
     def pierdeMano(self):

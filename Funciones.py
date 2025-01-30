@@ -1,7 +1,7 @@
 import os
 
 orden = ['Poker','Full','Color','Escalera','Trio','Doble Pareja','Pareja','Carta Alta']
-ciega =250,500
+ciega = [250, 500]
 
 
 def CheckMano(mesa,mano):
@@ -20,23 +20,28 @@ def CheckMano(mesa,mano):
     elif Pareja(mesa,mano):
         return "Pareja"
     else:
-        mano.setPuntuacion(max([carta.valor for carta in mano.cartas]))
+        mano.setPuntuacion(max([carta.valor for carta in mano.cartas+mesa.cartas]))
         return "Carta Alta"
 
 def SeguirJugando(mesa,mano,baraja,ronda): 
         os.system('cls' if os.name == 'nt' else 'clear')
+        if (ronda%2 == 0 and ronda != 0):
+            ciega[0]=int(ciega[0])*2
+            ciega[1]=int(ciega[1])*2
         print("La ciega será de",ciega)
         mesa.pedirCarta(baraja)
-        print("Tus cartas son:")
-        print(mano)
-        print("Las cartas de la mesa son:")
-        print(mesa)
-        mano.comprobarMano(mesa)
-        print("Tu mano es: ", mano.getMano(), "\tPuntuación: ", mano.getPuntuacion())
-        print("Tu apuesta es de: ", mano.apuesta , "\tFichas restantes: ", mano.fichas)
-        respuesta = input("¿Que quieres hacer? \t Seguir (s) \t Aumentar Apuesta (a) \t Retirarse (r): ")
 
-        return respuesta
+        print("Tus cartas son:")
+        print(mano,"\n")
+        print("Las cartas de la mesa son:")
+        print(mesa,"\n")
+        mano.comprobarMano(mesa)
+        print("Tu mano es: ", mano.getMano(), "\tPuntuación: ", mano.getPuntuacion(),"\n")
+        print("Tu apuesta es de: ", mano.apuesta , "\tFichas restantes: ", mano.fichas)
+
+        respuesta = input("¿Que quieres hacer? \t Seguir (s) \t Aumentar Apuesta (a) \t Retirarse (r): ")
+        
+        return respuesta,ciega
     
 def ComprobarGanador(mano1,mano2):
     if orden.index(mano1.getMano()) < orden.index(mano2.getMano()):
@@ -80,7 +85,8 @@ def ContarPareja(mesa, mano):
 
 def Pareja(mesa,mano):
     resultado = ContarPareja(mesa,mano)
-    if len(resultado[0]) == 1 and resultado[2][0] == 2:
+    print(resultado)
+    if len(resultado[0]) == 1 and resultado[2][0] == 1:
         mano.setPuntuacion(int(resultado[1][0])*2)
         return True
     else:
@@ -109,12 +115,16 @@ def Escalera(mesa,mano):
     if len(comprobarescalera) < 5:
         return False
     
-    for i in range(len(comprobarescalera) - 4):
-        if (comprobarescalera[i].valor == comprobarescalera[i+1].valor - 1 and
-            comprobarescalera[i+1].valor == comprobarescalera[i+2].valor - 1 and
-            comprobarescalera[i+2].valor == comprobarescalera[i+3].valor - 1 and
-            comprobarescalera[i+3].valor == comprobarescalera[i+4].valor - 1):
-            mano.setPuntuacion(comprobarescalera[i].valor+comprobarescalera[i+1].valor+comprobarescalera[i+2].valor+comprobarescalera[i+3].valor+comprobarescalera[i+4].valor)
+    unique_values = list(dict.fromkeys([carta.valor for carta in comprobarescalera]))
+    if len(unique_values) < 5:
+        return False
+    
+    for i in range(len(unique_values) - 4):
+        if (unique_values[i+4] - unique_values[i] == 4 and
+            unique_values[i+1] - unique_values[i] == 1 and
+            unique_values[i+2] - unique_values[i] == 2 and
+            unique_values[i+3] - unique_values[i] == 3):
+            mano.setPuntuacion(unique_values[i] + unique_values[i+1] + unique_values[i+2] + unique_values[i+3] + unique_values[i+4])
             return True
     return False
 

@@ -10,16 +10,16 @@ baraja = Baraja()
 miMano = Mano(FICHAS)
 manoCPU = Mano(FICHAS)
 Mesa = Mano()
-respuesta = ""
+respuesta=["s",0]
 
 miMano.inicializar(baraja)
 manoCPU.inicializar(baraja)
 Mesa.inicializar(baraja,1)
 
-while respuesta != "r":
+while respuesta[0] != "r" and len(Mesa.getCartas()) < 5:
     respuesta = SeguirJugando(Mesa,miMano, baraja,ronda)
-    if respuesta == "a":
-        miMano.aumentarApuesta()
+    if respuesta[0] == "a":
+        miMano.aumentarApuesta(respuesta[1])
 
 ronda += 1
 
